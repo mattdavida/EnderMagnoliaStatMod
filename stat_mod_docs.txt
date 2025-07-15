@@ -1,0 +1,137 @@
+Console commands to skip grinding and max out progression for ENDER MAGNOLIA: Bloom in the Mist.
+
+This mod was created by Matt & Gemini.
+
+Game Version: ENDER MAGNOLIA: Bloom in the Mist
+Unreal Engine Version: 5.3
+
+Requirements:
+- UE4SS (Unreal Engine 4 Scripting System): https://github.com/UE4SS-RE/RE-UE4SS/releases
+
+Installation:
+1. Download the latest release of UE4SS from the link above (usually a file named `UE4SS_vX.X.X.zip`).
+2. Extract ALL files from the zip archive directly into this EXACT folder:
+   `[Your Steam Path]\steamapps\common\ENDER MAGNOLIA\EnderMagnolia\Binaries\Win64\`
+
+   ⚠️ IMPORTANT: The files must go into the `EnderMagnolia\Binaries\Win64` folder, NOT the main game folder!
+
+   Example full path: `C:\Program Files (x86)\Steam\steamapps\common\ENDER MAGNOLIA\EnderMagnolia\Binaries\Win64\`
+
+3. Place the `EnderMagnoliaStatMod` folder (the one containing this readme and the `Scripts` folder) into the `Mods` folder that UE4SS creates.
+   The final path should look like this: `...\Win64\ue4ss\Mods\EnderMagnoliaStatMod\`
+
+4. **ENABLE THE MOD:** Open the file `...\Win64\ue4ss\Mods\mods.txt` in any text editor (like Notepad).
+   Add this line anywhere in the file (before the Keybinds section):
+   ```
+   EnderMagnoliaStatMod : 1
+   ```
+   Save the file. This tells UE4SS to load your mod.
+
+5. Launch the game.
+6. Press `F10` to open the UE4SS console. For a larger, persistent window that's easier to work with, press `F10` twice quickly.
+7. Enter the commands listed below.
+
+Commands:
+
+`stat_mod_help`
+- Shows this list of commands.
+
+`set_level <number>`
+- Sets your character's level.
+- Example: `set_level 100`
+- This change is PERSISTENT and will be saved with your game.
+
+`set_hp <number>`
+- Sets your maximum HP for the current game session.
+- Example: `set_hp 5000`
+- This change is TEMPORARY and will reset when you restart the game.
+
+`set_hp_robust <number>`
+- Sets your maximum HP by modifying the data table directly.
+- Example: `set_hp_robust 5000`
+- More stable than regular set_hp and should persist through level changes.
+- If it fails, automatically falls back to the regular method.
+
+`infinite_hp <number>`
+- Starts infinite health mode - automatically restores your HP every 500ms.
+- Example: `infinite_hp 5000`
+- Your health will be constantly maintained at the target level.
+- Use `infinite_hp_off` to stop this mode.
+
+`infinite_hp_off`
+- Stops infinite health mode.
+
+`infinite_hp_status`
+- Shows whether infinite health mode is active and what the target HP is.
+
+`set_jump_count <number>`
+- Sets the maximum number of jumps you can perform.
+- Example: `set_jump_count 3` for triple jump
+- Example: `set_jump_count 999` for "flying" mode
+- Default is 2 (double jump). This change is temporary and resets on game restart.
+
+`add_materials <amount>`
+- Adds "Upgrade Materials" (the common silver currency).
+- Example: `add_materials 999999`
+
+`add_scrap <amount>`
+- Adds "Scrap" (the rarer gold currency).
+- Example: `add_scrap 999999`
+
+`add_fragments <amount>`
+- Adds "Skill Fragments" used for upgrading skills.
+- Example: `add_fragments 999999`
+
+
+Notes:
+- `set_level` and the currency commands (`add_materials`, etc.) are persistent and saved with your game progress. `set_hp` resets when you close the game.
+- No game files are modified. This mod is safe to install and remove.
+- All commands have been tested and are working.
+
+Advanced Features (Optional):
+
+**Enable UE4SS Debugger & Live View:**
+For advanced users who want real-time object inspection and debugging capabilities:
+
+1. Open the file `...\Win64\ue4ss\UE4SS-settings.ini` in any text editor.
+2. Find the `[Debug]` section and change these values:
+   ```
+   ConsoleEnabled = 1
+   GuiConsoleEnabled = 1
+   GuiConsoleVisible = 1
+   GraphicsAPI = dx11
+   ```
+3. Find the `[General]` section and change this value:
+   ```
+   bUseObjectArrayCache = 1
+   ```
+4. Save the file and restart the game.
+5. You'll now have additional debug windows for:
+   - Live object inspection
+   - External debug console
+   - Real-time game state viewing
+   - Full UE4SS debugging features
+
+**Hotkeys:**
+- `F7` - Instantly restore health to maximum (works anytime in-game)
+- `F10` - Open UE4SS console (press twice for larger window)
+
+Troubleshooting:
+- **Commands not recognized?** Check that you've enabled the mod in `mods.txt` (see step 4 above). This is the most common issue!
+- **Console won't open?** Make sure all UE4SS files are in the correct `EnderMagnolia\Binaries\Win64` folder, not the main game folder.
+- **Still not working?** Verify that `UE4SS.dll` and `dwmapi.dll` exist directly inside your `Win64` folder.
+- **Game crashes?** This can happen for many reasons. One known issue is that using the built-in `clear` command in the UE4SS console will crash the game. Avoid using it.
+- **Need to check if the mod loaded?** Look at the UE4SS log file (`...\Win64\ue4ss\UE4SS.log`) and search for "EnderMagnoliaStatMod" to see if it loaded successfully.
+
+Challenge Run Ideas:
+- **Level 1 Only Run:** Stay at level 1, use `infinite_hp 999999` for survivability while maintaining the damage challenge.
+- **Glass Cannon:** High level + `infinite_hp 1` - massive damage but die in one hit.
+- **Endurance Mode:** Low level + infinite HP for extended boss pattern learning.
+- **Enhanced Platforming:** Use `set_jump_count 3` or higher for triple/quad jumps to access new areas.
+- **Flying Explorer:** `set_jump_count 999` + `infinite_hp 999999` for creative exploration of the world.
+- **Single Jump Challenge:** `set_jump_count 1` to make platforming much more difficult.
+
+Version History:
+- v1.0: Initial release with basic stat modification commands.
+- v1.1: Added enhanced documentation and troubleshooting.
+- v1.2: Added infinite health system, robust HP setter, jump count modification, F7 hotkey. 
