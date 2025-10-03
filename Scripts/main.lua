@@ -22,6 +22,43 @@ local function Log(Ar, Message)
     end
 end
 
+local function CreateCurrencyHandler(currencyType, commandName)
+    return function(FullCommand, Parameters, Ar)
+        local amount = tonumber(Parameters[1])
+        if not amount or amount <= 0 then
+            Log(Ar, string.format("Usage: %s <amount>. Amount must be a positive number.", commandName))
+            return true
+        end
+
+        local PC = UEHelpers.GetPlayerController()
+        if not PC or not PC:IsValid() then
+            Log(Ar, "Could not find PlayerController.")
+            return true
+        end
+
+        local InventoryComponent = PC:GetComponentByClass(StaticFindObject("/Script/Zion.InventoryComponent"))
+        if not InventoryComponent or not InventoryComponent:IsValid() then
+            Log(Ar, "Could not find InventoryComponent.")
+            return true
+        end
+
+        Log(Ar, string.format("Adding %d %s...", amount, commandName:gsub("add_", "")))
+        
+        local success, err = pcall(function()
+            -- AddCurrency expects CurrencyType (enum) and CurrencyToAdd (int).
+            InventoryComponent:AddCurrency(currencyType, amount)
+        end)
+        
+        if success then
+            Log(Ar, string.format("Successfully added %d %s.", amount, commandName:gsub("add_", "")))
+        else
+            Log(Ar, string.format("Failed to add %s.", commandName:gsub("add_", "")))
+        end
+
+        return true
+    end
+end
+
 -- === HELPER FUNCTION to get the core player components ===
 local function GetComponents()
     local PC = UEHelpers.GetPlayerController()
@@ -473,6 +510,11 @@ RegisterConsoleCommandHandler("stat_mod_help", HelpHandler)
 RegisterConsoleCommandHandler("set_level", SetLevelHandler)
 RegisterConsoleCommandHandler("set_hp", SetHpHandler)
 RegisterConsoleCommandHandler("set_hp_robust", SetHpRobustHandler)
+
+RegisterConsoleCommandHandler("add_materials", CreateCurrencyHandler(0, "add_materials"))
+RegisterConsoleCommandHandler("add_scrap", CreateCurrencyHandler(5, "add_scrap"))
+RegisterConsoleCommandHandler("add_fragments", CreateCurrencyHandler(10, "add_fragments"))
+
 
 -- Register infinite health commands
 RegisterConsoleCommandHandler("infinite_hp", InfiniteHpHandler)
